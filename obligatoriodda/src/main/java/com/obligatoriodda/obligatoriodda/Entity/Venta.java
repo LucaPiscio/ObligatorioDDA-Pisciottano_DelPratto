@@ -1,5 +1,4 @@
-
-package Entity;
+package com.obligatoriodda.obligatoriodda.Entity;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
@@ -14,10 +13,11 @@ public class Venta {
     @Id
     private int Codigo;
 
-    private int Usuario;
+    private Usuario usuario;
 
     private LocalDate FCompra;
 
     private Double Total;
+
 
 }

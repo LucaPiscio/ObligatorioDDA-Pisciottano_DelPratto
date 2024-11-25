@@ -1,4 +1,5 @@
-package Entity;
+package com.obligatoriodda.obligatoriodda.Entity;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -8,19 +9,16 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 
-public class Videojuegos {
-
+public class Usuario{
     @Id
     private int Codigo;
 
     private String Nombre;
 
-    private String Descripcion;
+    private String Email;
 
-    private Double Precio;
+    private LocalDate Fregistro;
 
-    private int CantCopias;
 
-    private String Categoria;
-    
+
 }
