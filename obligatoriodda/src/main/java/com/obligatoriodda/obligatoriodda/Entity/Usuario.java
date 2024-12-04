@@ -23,13 +23,19 @@ public class Usuario{
 
     private LocalDate Fregistro;
 
+    private String Membresia;
+
+    private LocalDate Fmembresia;
+
     public Usuario() {
     }
 
-    public Usuario(String nombre, String email, LocalDate fRegistro) {
+    public Usuario(String nombre, String email, LocalDate fRegistro,String membresia,LocalDate fmembresia) {
         this.Nombre = nombre;
         this.Email = email;
         this.Fregistro = fRegistro;
+        this.Membresia = membresia;
+        this.Fmembresia = fmembresia;
     }
 
     // Getters y Setters
@@ -63,6 +69,22 @@ public class Usuario{
 
     public void setFRegistro(LocalDate fRegistro) {
         this.Fregistro = fRegistro;
+    }
+
+    public String getmembresia() {
+        return Membresia;
+    }
+
+    public void setMembresia(String membresia) {
+        this.Membresia = membresia;
+    }
+
+    public LocalDate getFmembresia() {
+        return Fmembresia;
+    }
+
+    public void setFmembresia(LocalDate fmembresia) {
+        this.Fmembresia = fmembresia;
     }
 
 }

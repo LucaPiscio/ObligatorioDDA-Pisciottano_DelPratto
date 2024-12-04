@@ -24,9 +24,9 @@ public class Videojuegos {
 
     private String Categoria;
 
-    @ManyToMany(mappedBy = "videojuegos")
+    @ManyToMany(mappedBy = "videojuegosVendidos")
     private Set<Venta> ventas = new HashSet<>();
-    
+
     public Videojuegos() {
     }
 

@@ -17,21 +17,19 @@ public class Venta {
     private int Codigo;
 
     @ManyToOne
-    @JoinColumn(name="idUsuario", referencedColumnName = "id")
+    @JoinColumn(name = "idUsuario", referencedColumnName = "Codigo")
     private Usuario usuario;
 
     private LocalDate FCompra;
 
     private Double Total;
 
-    @ManyToOne
-    @JoinColumn(name="idVideojuego", referencedColumnName = "id")
+    @ManyToMany
     private Set<Videojuegos> videojuegosVendidos = new HashSet<>();
 
     public Venta() {
     }
 
- 
     public Venta(Usuario usuario, LocalDate fCompra, Double total, Set<Videojuegos> videojuegosVendidos) {
         this.usuario = usuario;
         this.FCompra = fCompra;
