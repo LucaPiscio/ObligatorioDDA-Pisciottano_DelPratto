@@ -1,73 +1,61 @@
 package com.obligatoriodda.obligatoriodda.Entity;
+
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
+import jakarta.persistence.MappedSuperclass;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 
-@Entity
+@MappedSuperclass
 public class Venta {
+
     @Id
-    private int Codigo;
+    private int codigo; 
 
-    @ManyToOne
-    @JoinColumn(name = "idUsuario", referencedColumnName = "Codigo")
-    private Usuario usuario;
-
-    private LocalDate FCompra;
-
-    private Double Total;
+    private LocalDate fCompra;  
+    private Double total; 
 
     @ManyToMany
-    private Set<Videojuegos> videojuegosVendidos = new HashSet<>();
+    private Set<Videojuegos> videojuegosVendidos = new HashSet<>(); 
 
     public Venta() {
     }
 
-    public Venta(Usuario usuario, LocalDate fCompra, Double total, Set<Videojuegos> videojuegosVendidos) {
-        this.usuario = usuario;
-        this.FCompra = fCompra;
-        this.Total = total;
+    public Venta( LocalDate fCompra, Double total, Set<Videojuegos> videojuegosVendidos) {
+        this.fCompra = fCompra;
+        this.total = total;
         this.videojuegosVendidos = videojuegosVendidos;
     }
 
-    // Getters y Setters
+ 
     public int getCodigo() {
-        return Codigo;
+        return codigo;
     }
 
     public void setCodigo(int codigo) {
-        this.Codigo = codigo;
-    }
-
-    public Usuario getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
+        this.codigo = codigo;
     }
 
     public LocalDate getFCompra() {
-        return FCompra;
+        return fCompra;
     }
 
     public void setFCompra(LocalDate fCompra) {
-        this.FCompra = fCompra;
+        this.fCompra = fCompra;
     }
 
     public Double getTotal() {
-        return Total;
+        return total;
     }
 
     public void setTotal(Double total) {
-        this.Total = total;
+        this.total = total;
     }
 
     public Set<Videojuegos> getVideojuegosVendidos() {

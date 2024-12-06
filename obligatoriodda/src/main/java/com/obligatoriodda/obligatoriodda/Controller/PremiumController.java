@@ -11,31 +11,29 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.obligatoriodda.obligatoriodda.Entity.Usuario;
-import com.obligatoriodda.obligatoriodda.Repository.UsuarioRepository;
+import com.obligatoriodda.obligatoriodda.Entity.Upremium;
+import com.obligatoriodda.obligatoriodda.Repository.PremiumRepository;
 
 @RestController
-@RequestMapping("/usuarios")
+@RequestMapping("/UsuariosPremium")
 @CrossOrigin(origins = "http://localhost:3000")
-public class UsuarioController {
-
+public class PremiumController {
     @Autowired
-    private UsuarioRepository usuarioRepository;
+    private PremiumRepository premiumRepository;
 
-    @PostMapping
-    public ResponseEntity<?> altaUsuario(@RequestBody Usuario usuario){
+     @PostMapping
+    public ResponseEntity<?> altaUsuarioPremium(@RequestBody Upremium upremium){
         try {
-            return ResponseEntity.status(HttpStatus.OK).body(usuarioRepository.save(usuario));
+            return ResponseEntity.status(HttpStatus.OK).body(premiumRepository.save(upremium));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Problema interno en el servidor");
         }
     }
 
     @PutMapping
-    public ResponseEntity<?> modificacionUsuario(@RequestBody Usuario usuario){
+    public ResponseEntity<?> modificacionUsuarioPremium(@RequestBody Upremium upremium){
         try {
-            return ResponseEntity.status(HttpStatus.OK).body(usuarioRepository.save(usuario));
+            return ResponseEntity.status(HttpStatus.OK).body(premiumRepository.save(upremium));
         }
         catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Problema interno en el servidor");
@@ -43,9 +41,9 @@ public class UsuarioController {
     }
 
     @DeleteMapping("/{Codigo}")
-    public ResponseEntity<?> eliminacionUsuario(@PathVariable int Codigo){
+    public ResponseEntity<?> eliminacionUsuarioPremium(@PathVariable int Codigo){
         try {
-            usuarioRepository.deleteById(Codigo);
+            premiumRepository.deleteById(Codigo);
             return ResponseEntity.status(HttpStatus.OK).body("Eliminado");
         }
         catch (Exception e) {
@@ -54,9 +52,9 @@ public class UsuarioController {
     }
 
     @GetMapping("/{Codigo}")
-    public ResponseEntity<?> conseguirUsuario(@PathVariable int Codigo){
+    public ResponseEntity<?> conseguirUsuarioPremium(@PathVariable int Codigo){
         try {
-            return ResponseEntity.status(HttpStatus.OK).body(usuarioRepository.findById(Codigo));
+            return ResponseEntity.status(HttpStatus.OK).body(premiumRepository.findById(Codigo));
         }
         catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Problema interno en el servidor");
@@ -64,10 +62,10 @@ public class UsuarioController {
     }
 
     @GetMapping
-    public ResponseEntity<?> conseguirUsuarios(){
+    public ResponseEntity<?> conseguirUsuariosPremium(){
         try {
             
-            return ResponseEntity.status(HttpStatus.OK).body(usuarioRepository.findAll());
+            return ResponseEntity.status(HttpStatus.OK).body(premiumRepository.findAll());
         }
         catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Problema interno en el servidor");

@@ -1,4 +1,4 @@
-/*package com.obligatoriodda.obligatoriodda.Controller;
+package com.obligatoriodda.obligatoriodda.Controller;
 import java.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,35 +13,35 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import com.obligatoriodda.obligatoriodda.Entity.Usuario;
-import com.obligatoriodda.obligatoriodda.Repository.UsuarioRepository;
-import com.obligatoriodda.obligatoriodda.Entity.Venta;
-import com.obligatoriodda.obligatoriodda.Repository.VentaRepository;
+import com.obligatoriodda.obligatoriodda.Entity.Uregular;
+import com.obligatoriodda.obligatoriodda.Repository.RegularRepository;
+import com.obligatoriodda.obligatoriodda.Repository.VentaRegularRepository;
+import com.obligatoriodda.obligatoriodda.Entity.VentaRegular;
 
 @RestController
-@RequestMapping("/ventas")
+@RequestMapping("/ventasRegular")
 @CrossOrigin(origins = "http://localhost:3000")
+public class VentaRegularController {
 
-public class VentaController {
-    @Autowired
-    private VentaRepository ventaRepository;
+     @Autowired
+    private VentaRegularRepository ventaregularRepository;
 
     @Autowired
-    private UsuarioRepository usuarioRepository;
+    private RegularRepository regularRepository;
 
     @PostMapping
-    public ResponseEntity<?> altaVenta(@RequestBody Venta venta){
+    public ResponseEntity<?> altaVentaRegular(@RequestBody VentaRegular ventaregular){
         try {
-            return ResponseEntity.status(HttpStatus.OK).body(ventaRepository.save(venta));
+            return ResponseEntity.status(HttpStatus.OK).body(ventaregularRepository.save(ventaregular));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Problema interno en el servidor");
         }
     }
 
     @PutMapping
-    public ResponseEntity<?> modificacionVenta(@RequestBody Venta venta){
+    public ResponseEntity<?> modificacionVentaRegular(@RequestBody VentaRegular ventaregular){
         try {
-            return ResponseEntity.status(HttpStatus.OK).body(ventaRepository.save(venta));
+            return ResponseEntity.status(HttpStatus.OK).body(ventaregularRepository.save(ventaregular));
         }
         catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Problema interno en el servidor");
@@ -49,9 +49,9 @@ public class VentaController {
     }
 
     @DeleteMapping("/{Codigo}")
-    public ResponseEntity<?> eliminacionCenta(@PathVariable int Codigo){
+    public ResponseEntity<?> eliminacionVentaRegular(@PathVariable int Codigo){
         try {
-            ventaRepository.deleteById(Codigo);
+            ventaregularRepository.deleteById(Codigo);
             return ResponseEntity.status(HttpStatus.OK).body("Eliminado");
         }
         catch (Exception e) {
@@ -60,9 +60,9 @@ public class VentaController {
     }
     
     @GetMapping("/{Codigo}")
-    public ResponseEntity<?> conseguirVenta(@PathVariable int Codigo){
+    public ResponseEntity<?> conseguirVentaRegular(@PathVariable int Codigo){
         try {
-            return ResponseEntity.status(HttpStatus.OK).body(ventaRepository.findById(Codigo));
+            return ResponseEntity.status(HttpStatus.OK).body(ventaregularRepository.findById(Codigo));
         }
         catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Problema interno en el servidor");
@@ -70,31 +70,31 @@ public class VentaController {
     }
     
     @GetMapping
-    public ResponseEntity<?> conseguirVentas(){
+    public ResponseEntity<?> conseguirVentasRegular(){
         try {
-            return ResponseEntity.status(HttpStatus.OK).body(ventaRepository.findAll());
+            return ResponseEntity.status(HttpStatus.OK).body(ventaregularRepository.findAll());
         }
         catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Problema interno en el servidor");
         }
     }
 
-    @PutMapping("/{Codigo}/asignarUsuario/{idUsuario}")
-    public ResponseEntity<?> asignarUsuario(@PathVariable int Codigo, @PathVariable int idUsuario){
+    @PutMapping("/{Codigo}/asignarUsuario/{idUsuarioRegular}")
+    public ResponseEntity<?> asignarUsuarioRegular(@PathVariable int Codigo, @PathVariable int idUsuario){
     try {
-        Usuario usuario;
-        Venta venta;
-        if(usuarioRepository.existsById(idUsuario))
-            usuario = usuarioRepository.findById(idUsuario).get();
+        Uregular uregular;
+        VentaRegular ventaregular;
+        if(regularRepository.existsById(idUsuario))
+            uregular = regularRepository.findById(idUsuario).get();
         else
             throw new Exception();
-        if(ventaRepository.existsById(Codigo))
-            venta = ventaRepository.findById(Codigo).get();
+        if(ventaregularRepository.existsById(Codigo))
+            ventaregular = ventaregularRepository.findById(Codigo).get();
         else
             throw new Exception();
         
-        venta.setUsuario(usuario);
-        ventaRepository.save(venta);
+        ventaregular.setUregular(uregular);
+        ventaregularRepository.save(ventaregular);
         return ResponseEntity.status(HttpStatus.OK).body("Usuario asignado");
     }
     catch (Exception e) {
@@ -103,14 +103,13 @@ public class VentaController {
     }
 
      @GetMapping("/filtrarPorFecha")
-    public ResponseEntity<?> conseguirVentaPorFecha(@RequestParam LocalDate FCompra){
+    public ResponseEntity<?> conseguirVentaPorFecha(@RequestParam LocalDate fCompra){
         try {
-            return ResponseEntity.status(HttpStatus.OK).body(ventaRepository.findByFCompra(FCompra));
+            return ResponseEntity.status(HttpStatus.OK).body(ventaregularRepository.findByfCompra(fCompra));
         }
         catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Problema interno en el servidor");
         }
     }
-
+    
 }
-*/

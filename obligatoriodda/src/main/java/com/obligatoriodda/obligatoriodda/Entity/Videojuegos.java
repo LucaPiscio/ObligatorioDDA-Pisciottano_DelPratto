@@ -25,7 +25,10 @@ public class Videojuegos {
     private String Categoria;
 
     @ManyToMany(mappedBy = "videojuegosVendidos")
-    private Set<Venta> ventas = new HashSet<>();
+    private Set<VentaPremium> ventaspremium = new HashSet<>();
+
+    @ManyToMany(mappedBy = "videojuegosVendidos")
+    private Set<VentaRegular> ventasregular = new HashSet<>();
 
     public Videojuegos() {
     }
@@ -38,7 +41,6 @@ public class Videojuegos {
         this.Categoria = categoria;
     }
 
-    // Getters y Setters
     public int getCodigo() {
         return Codigo;
     }
@@ -87,11 +89,19 @@ public class Videojuegos {
         this.Categoria = categoria;
     }
 
-    public Set<Venta> getVentas() {
-        return ventas;
+    public Set<VentaPremium> getVentasPremium() {
+        return ventaspremium;
     }
 
-    public void setVentas(Set<Venta> ventas) {
-        this.ventas = ventas;
+    public void setVentasPremium(Set<VentaPremium> ventaspremium) {
+        this.ventaspremium = ventaspremium;
+    }
+
+    public Set<VentaRegular> getVentasRegular() {
+        return ventasregular;
+    }
+
+    public void setVentasRegular(Set<VentaRegular> ventasregular) {
+        this.ventasregular = ventasregular;
     }
 }

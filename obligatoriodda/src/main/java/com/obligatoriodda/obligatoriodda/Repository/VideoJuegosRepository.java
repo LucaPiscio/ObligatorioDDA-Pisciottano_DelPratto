@@ -1,5 +1,9 @@
 package com.obligatoriodda.obligatoriodda.Repository;
 
-public class VideoJuegosRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.obligatoriodda.obligatoriodda.Entity.Venta;
+
+public interface VideoJuegosRepository extends JpaRepository<Venta, Integer> {
     
 }
