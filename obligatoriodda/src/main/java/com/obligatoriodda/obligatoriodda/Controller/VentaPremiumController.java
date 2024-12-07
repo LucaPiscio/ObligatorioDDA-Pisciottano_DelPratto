@@ -42,7 +42,29 @@ public class VentaPremiumController {
     @PostMapping
     public ResponseEntity<?> altaVentaPremium(@RequestBody VentaPremium ventapremium){
         try {
-            return ResponseEntity.status(HttpStatus.OK).body(ventapremiumRepository.save(ventapremium));
+            
+                Videojuegos videojuego = ventapremium.getVideoJuego(); 
+    
+                if (videojuego.getStock() < 1) {
+                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Stock insuficiente para el videojuego: " + videojuego.getNombre());
+                }
+    
+                // Reduce el stock
+                videojuego.setStock(videojuego.getStock() - ventapremium.getCantidad());
+                videojuegosRepository.save(videojuego);
+
+                // Porcentaje
+                ventapremium.setTotal(ventapremium.getTotal() - (ventapremium.getTotal() * 0.20));
+                ventapremiumRepository.save(ventapremium);
+                if(ventapremium.getCantidad() > videojuego.getStock()){
+                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Stock insuficiente para el videojuego" );
+                }
+            
+    
+            // Guardar venta
+            VentaPremium nuevaVenta = ventapremiumRepository.save(ventapremium);
+            return ResponseEntity.status(HttpStatus.OK).body(nuevaVenta);
+    
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Problema interno en el servidor");
         }

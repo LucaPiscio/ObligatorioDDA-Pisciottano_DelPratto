@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.obligatoriodda.obligatoriodda.Entity.Uregular;
+import com.obligatoriodda.obligatoriodda.Entity.VentaPremium;
 import com.obligatoriodda.obligatoriodda.Entity.Videojuegos;
 import com.obligatoriodda.obligatoriodda.Repository.RegularRepository;
 import com.obligatoriodda.obligatoriodda.Repository.VideoJuegosRepository;
@@ -36,8 +37,24 @@ public class VentaRegularController {
 
     @PostMapping
     public ResponseEntity<?> altaVentaRegular(@RequestBody VentaRegular ventaregular){
-        try {
-            return ResponseEntity.status(HttpStatus.OK).body(ventaregularRepository.save(ventaregular));
+         try {
+            // Verificar si los videojuegos existen y actualizar el stock
+                Videojuegos videojuego = ventaregular.getVideoJuego(); 
+    
+                if (videojuego.getStock() <= 1) {
+                    return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                            .body("Stock insuficiente para el videojuego: " + videojuego.getNombre());
+                }
+    
+                // Reducir stock del videojuego
+                videojuego.setStock(videojuego.getStock() - ventaregular.getCantidad());
+                videojuegosRepository.save(videojuego);
+            
+    
+            // Guardar la venta
+            VentaRegular nuevaVenta = ventaregularRepository.save(ventaregular);
+            return ResponseEntity.status(HttpStatus.OK).body(nuevaVenta);
+    
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Problema interno en el servidor");
         }
