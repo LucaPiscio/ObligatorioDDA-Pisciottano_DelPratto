@@ -43,7 +43,9 @@ public class VentaPremiumController {
     public ResponseEntity<?> altaVentaPremium(@RequestBody VentaPremium ventapremium){
         try {
             
-                Videojuegos videojuego = ventapremium.getVideoJuego(); 
+            Videojuegos videojuego = videojuegosRepository.findById(ventapremium.getVideoJuego().getCodigo())
+            .orElseThrow(() -> new Exception("Videojuego no encontrado"));//anda para que no reinicie le stock
+    
     
                 if (videojuego.getStock() < 1) {
                     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Stock insuficiente para el videojuego: " + videojuego.getNombre());
