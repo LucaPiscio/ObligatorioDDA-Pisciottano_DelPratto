@@ -7,15 +7,15 @@ import jakarta.persistence.Entity;
 @Entity
 public class Upremium extends Usuario{
     private Double descuento;      
-    private LocalDate fechaExpiracion; 
+    private LocalDate FechaExpiracion; 
     private LocalDate Fmembresia;
 
 
     public Upremium() {
     }
-    public Upremium(Double descuento, LocalDate fechaExpiracion,LocalDate fmembresia) {
+    public Upremium(Double descuento, LocalDate fechaexpiracion,LocalDate fmembresia) {
         this.descuento = descuento;
-        this.fechaExpiracion = fechaExpiracion;
+        this.FechaExpiracion = fechaexpiracion;
         this.Fmembresia = fmembresia;
     }
 
@@ -29,11 +29,11 @@ public class Upremium extends Usuario{
     }
 
     public LocalDate getFechaExpiracion() {
-        return fechaExpiracion;
+        return FechaExpiracion;
     }
 
-    public void setFechaExpiracion(LocalDate fechaExpiracion) {
-        this.fechaExpiracion = fechaExpiracion;
+    public void setFechaExpiracion(LocalDate fechaexpiracion) {
+        this.FechaExpiracion = fechaexpiracion;
     }
 
     public LocalDate getFmembresia() {

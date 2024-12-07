@@ -15,8 +15,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.obligatoriodda.obligatoriodda.Entity.Upremium;
 import com.obligatoriodda.obligatoriodda.Repository.PremiumRepository;
+import com.obligatoriodda.obligatoriodda.Entity.Videojuegos;
 import com.obligatoriodda.obligatoriodda.Repository.VentaPremiumRepository;
+import com.obligatoriodda.obligatoriodda.Repository.VideoJuegosRepository;
 import com.obligatoriodda.obligatoriodda.Entity.VentaPremium;
+import com.obligatoriodda.obligatoriodda.Entity.VentaRegular;
+import com.obligatoriodda.obligatoriodda.Entity.Videojuegos;
 
 
 
@@ -30,6 +34,10 @@ public class VentaPremiumController {
 
     @Autowired
     private PremiumRepository premiumRepository;
+
+    @Autowired
+    private VideoJuegosRepository videojuegosRepository;
+
 
     @PostMapping
     public ResponseEntity<?> altaVentaPremium(@RequestBody VentaPremium ventapremium){
@@ -98,6 +106,29 @@ public class VentaPremiumController {
         ventapremium.setUpremium(upremium);
         ventapremiumRepository.save(ventapremium);
         return ResponseEntity.status(HttpStatus.OK).body("Usuario asignado");
+    }
+    catch (Exception e) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Problema interno en el servidor");
+    }
+    }
+
+        @PutMapping("/{Codigo}/asignarVideoJuego/{idVideoJuegos}")
+    public ResponseEntity<?> asignarVideoJuego(@PathVariable int Codigo, @PathVariable int idVideoJuegos){
+    try {
+        Videojuegos videojuegos;
+        VentaPremium ventapremium;
+        if(videojuegosRepository.existsById(idVideoJuegos))
+            videojuegos = videojuegosRepository.findById(idVideoJuegos).get();
+        else
+            throw new Exception();
+        if(ventapremiumRepository.existsById(Codigo))
+            ventapremium = ventapremiumRepository.findById(Codigo).get();
+        else
+            throw new Exception();
+        
+        ventapremium.setVideoJuego(videojuegos);
+        ventapremiumRepository.save(ventapremium);
+        return ResponseEntity.status(HttpStatus.OK).body("VideoJuego asignado");
     }
     catch (Exception e) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Problema interno en el servidor");

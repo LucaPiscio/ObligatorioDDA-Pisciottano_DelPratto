@@ -16,10 +16,15 @@ import jakarta.persistence.ManyToOne;
 public class Venta {
 
     @Id
-    private int codigo; 
-
+    private int Codigo; 
+    private String NombreJuego;
+    private int Cantidad;
     private LocalDate fCompra;  
     private Double total; 
+
+    @ManyToOne
+    @JoinColumn(name = "idVideoJuegos", referencedColumnName = "Codigo")
+    private Videojuegos videojuegos; 
 
     @ManyToMany
     private Set<Videojuegos> videojuegosVendidos = new HashSet<>(); 
@@ -27,7 +32,9 @@ public class Venta {
     public Venta() {
     }
 
-    public Venta( LocalDate fCompra, Double total, Set<Videojuegos> videojuegosVendidos) {
+    public Venta(LocalDate fCompra, Double total, Set<Videojuegos> videojuegosVendidos,String nombreJuego,int cantidad) {
+        this.Cantidad=cantidad;
+        this.NombreJuego=nombreJuego;
         this.fCompra = fCompra;
         this.total = total;
         this.videojuegosVendidos = videojuegosVendidos;
@@ -35,11 +42,11 @@ public class Venta {
 
  
     public int getCodigo() {
-        return codigo;
+        return Codigo;
     }
 
     public void setCodigo(int codigo) {
-        this.codigo = codigo;
+        this.Codigo = codigo;
     }
 
     public LocalDate getFCompra() {
@@ -65,4 +72,30 @@ public class Venta {
     public void setVideojuegosVendidos(Set<Videojuegos> videojuegosVendidos) {
         this.videojuegosVendidos = videojuegosVendidos;
     }
+
+    public String getNombreJuego() {
+        return NombreJuego;
+    }
+
+    public void setNombreJuego(String nombreJuego) {
+        this.NombreJuego = nombreJuego;
+    }
+
+    public int getCantidad() {
+        return Cantidad;
+    }
+
+    public void setCantidad(int cantidad) {
+        this.Cantidad = cantidad;
+    }
+
+    
+    public Videojuegos getVideoJuego() {
+        return videojuegos;
+    }
+
+    public void setVideoJuego(Videojuegos videojuegos) {
+        this.videojuegos = videojuegos;
+    }
+
 }

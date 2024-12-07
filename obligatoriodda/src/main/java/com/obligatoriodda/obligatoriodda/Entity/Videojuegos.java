@@ -20,7 +20,7 @@ public class Videojuegos {
 
     private Double Precio;
 
-    private int CantCopias;
+    private int Stock;
 
     private String Categoria;
 
@@ -33,11 +33,11 @@ public class Videojuegos {
     public Videojuegos() {
     }
 
-    public Videojuegos(String nombre, String descripcion, Double precio, int cantCopias, String categoria) {
+    public Videojuegos(String nombre, String descripcion, Double precio, int stock, String categoria) {
         this.Nombre = nombre;
         this.Descripcion = descripcion;
         this.Precio = precio;
-        this.CantCopias = cantCopias;
+        this.Stock = stock;
         this.Categoria = categoria;
     }
 
@@ -73,12 +73,12 @@ public class Videojuegos {
         this.Precio = precio;
     }
 
-    public int getCantCopias() {
-        return CantCopias;
+    public int getStock() {
+        return Stock;
     }
 
-    public void setCantCopias(int cantCopias) {
-        this.CantCopias = cantCopias;
+    public void setStock(int stock) {
+        this.Stock = stock;
     }
 
     public String getCategoria() {
@@ -101,7 +101,9 @@ public class Videojuegos {
         return ventasregular;
     }
 
-    public void setVentasRegular(Set<VentaRegular> ventasregular) {
+    public void setVentasRegualar(Set<VentaRegular> ventasregular) {
         this.ventasregular = ventasregular;
     }
+
+
 }

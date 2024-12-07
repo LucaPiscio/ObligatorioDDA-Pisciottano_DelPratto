@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.obligatoriodda.obligatoriodda.Entity.Uregular;
+import com.obligatoriodda.obligatoriodda.Entity.Videojuegos;
 import com.obligatoriodda.obligatoriodda.Repository.RegularRepository;
+import com.obligatoriodda.obligatoriodda.Repository.VideoJuegosRepository;
 import com.obligatoriodda.obligatoriodda.Repository.VentaRegularRepository;
 import com.obligatoriodda.obligatoriodda.Entity.VentaRegular;
 
@@ -28,6 +30,9 @@ public class VentaRegularController {
 
     @Autowired
     private RegularRepository regularRepository;
+
+    @Autowired
+    private VideoJuegosRepository videojuegosRepository;
 
     @PostMapping
     public ResponseEntity<?> altaVentaRegular(@RequestBody VentaRegular ventaregular){
@@ -80,12 +85,12 @@ public class VentaRegularController {
     }
 
     @PutMapping("/{Codigo}/asignarUsuario/{idUsuarioRegular}")
-    public ResponseEntity<?> asignarUsuarioRegular(@PathVariable int Codigo, @PathVariable int idUsuario){
+    public ResponseEntity<?> asignarUsuarioRegular(@PathVariable int Codigo, @PathVariable int idUsuarioRegular){
     try {
         Uregular uregular;
         VentaRegular ventaregular;
-        if(regularRepository.existsById(idUsuario))
-            uregular = regularRepository.findById(idUsuario).get();
+        if(regularRepository.existsById(idUsuarioRegular))
+            uregular = regularRepository.findById(idUsuarioRegular).get();
         else
             throw new Exception();
         if(ventaregularRepository.existsById(Codigo))
@@ -96,6 +101,29 @@ public class VentaRegularController {
         ventaregular.setUregular(uregular);
         ventaregularRepository.save(ventaregular);
         return ResponseEntity.status(HttpStatus.OK).body("Usuario asignado");
+    }
+    catch (Exception e) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Problema interno en el servidor");
+    }
+    }
+
+    @PutMapping("/{Codigo}/asignarVideoJuego/{idVideoJuegos}")
+    public ResponseEntity<?> asignarVideoJuego(@PathVariable int Codigo, @PathVariable int idVideoJuegos){
+    try {
+        Videojuegos videojuegos;
+        VentaRegular ventaregular;
+        if(videojuegosRepository.existsById(idVideoJuegos))
+            videojuegos = videojuegosRepository.findById(idVideoJuegos).get();
+        else
+            throw new Exception();
+        if(ventaregularRepository.existsById(Codigo))
+            ventaregular = ventaregularRepository.findById(Codigo).get();
+        else
+            throw new Exception();
+        
+        ventaregular.setVideoJuego(videojuegos);
+        ventaregularRepository.save(ventaregular);
+        return ResponseEntity.status(HttpStatus.OK).body("VideoJuego asignado");
     }
     catch (Exception e) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Problema interno en el servidor");

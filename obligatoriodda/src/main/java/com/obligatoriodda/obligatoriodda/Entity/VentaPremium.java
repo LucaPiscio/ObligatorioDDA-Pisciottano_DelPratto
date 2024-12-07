@@ -5,7 +5,7 @@ import jakarta.persistence.ManyToOne;
 
 @Entity
 public class VentaPremium extends Venta{
-        @ManyToOne
+    @ManyToOne
     @JoinColumn(name = "idUsuarioPremium", referencedColumnName = "Codigo")
     private Upremium upremium; 
 

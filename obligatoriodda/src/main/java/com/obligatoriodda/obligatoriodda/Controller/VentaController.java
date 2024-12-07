@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import com.obligatoriodda.obligatoriodda.Entity.Usuario;
-import com.obligatoriodda.obligatoriodda.Repository.UsuarioRepository;
+import com.obligatoriodda.obligatoriodda.Entity.Upremium;
+import com.obligatoriodda.obligatoriodda.Repository.PremiumRepository;
+import com.obligatoriodda.obligatoriodda.Entity.Uregular;
+import com.obligatoriodda.obligatoriodda.Repository.RegularRepository;
 import com.obligatoriodda.obligatoriodda.Entity.Venta;
 import com.obligatoriodda.obligatoriodda.Repository.VentaRepository;
 
@@ -27,7 +29,10 @@ public class VentaController {
     private VentaRepository ventaRepository;
 
     @Autowired
-    private UsuarioRepository usuarioRepository;
+    private PremiumRepository premiumRepository;
+
+    @Autowired
+    private RegularRepository regularRepository;
 
     @PostMapping
     public ResponseEntity<?> altaVenta(@RequestBody Venta venta){
@@ -80,32 +85,33 @@ public class VentaController {
     }
 
     @PutMapping("/{Codigo}/asignarUsuario/{idUsuario}")
-    public ResponseEntity<?> asignarUsuario(@PathVariable int Codigo, @PathVariable int idUsuario){
-    try {
-        Usuario usuario;
-        Venta venta;
-        if(usuarioRepository.existsById(idUsuario))
-            usuario = usuarioRepository.findById(idUsuario).get();
-        else
-            throw new Exception();
-        if(ventaRepository.existsById(Codigo))
-            venta = ventaRepository.findById(Codigo).get();
-        else
-            throw new Exception();
-        
-        venta.setUsuario(usuario);
-        ventaRepository.save(venta);
-        return ResponseEntity.status(HttpStatus.OK).body("Usuario asignado");
-    }
-    catch (Exception e) {
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Problema interno en el servidor");
-    }
+    public ResponseEntity<?> asignarUsuario(@PathVariable int Codigo, @PathVariable int idUsuario) {
+        try {
+            Venta venta = ventaRepository.findById(Codigo)
+                    .orElseThrow(() -> new Exception("Venta no encontrada"));
+    
+ 
+            if (premiumRepository.existsById(Codigo)) {
+                Upremium usuarioPremium = premiumRepository.findById(idUsuario).get();
+                venta.setUpremium(usuarioPremium);  // Asegúrate de tener un campo para usuario premium en la clase Venta
+            } else if (regularRepository.existsById(idUsuario)) {
+                Uregular usuarioRegular = regularRepository.findById(idUsuario).get();
+                venta.setUregular(usuarioRegular);  // Asegúrate de tener un campo para usuario regular en la clase Venta
+            } else {
+                throw new Exception("Usuario no encontrado");
+            }
+    
+            ventaRepository.save(venta);
+            return ResponseEntity.status(HttpStatus.OK).body("Usuario asignado");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Problema interno en el servidor");
+        }
     }
 
      @GetMapping("/filtrarPorFecha")
-    public ResponseEntity<?> conseguirVentaPorFecha(@RequestParam LocalDate FCompra){
+    public ResponseEntity<?> conseguirVentaPorFecha(@RequestParam LocalDate fCompra){
         try {
-            return ResponseEntity.status(HttpStatus.OK).body(ventaRepository.findByFCompra(FCompra));
+            return ResponseEntity.status(HttpStatus.OK).body(ventaRepository.findByfCompra(fCompra));
         }
         catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Problema interno en el servidor");

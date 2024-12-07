@@ -8,3 +8,4 @@ import com.obligatoriodda.obligatoriodda.Entity.VentaRegular;;
 public interface VentaRegularRepository extends JpaRepository<VentaRegular, Integer> {
     public List<VentaRegular> findByfCompra(LocalDate pfCompra);
 }
+    
